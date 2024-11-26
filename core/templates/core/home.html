@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <h1 class="text-center">Imóveis Disponíveis para Aluguel</h1>
+    <p class="text-center">Escolha o imóvel ideal para você!</p>
+    <div class="row">
+        {% for imovel in imoveis %}
+            <div class="col-md-4 d-flex align-items-stretch">
+                <div class="card shadow-sm mb-4">
+                    {% if imovel.imagem %}
+                        <img src="{{ imovel.imagem.url }}" class="card-img-top" alt="Imagem do imóvel">
+                    {% else %}
+                        <img src="{% static 'images/default-imovel.jpg' %}" class="card-img-top" alt="Imagem padrão do imóvel">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ imovel.tipo }} - Código {{ imovel.codigo }}</h5>
+                        <p class="card-text text-muted">{{ imovel.descricao|truncatewords:15 }}</p>
+                        <p class="card-text font-weight-bold">Preço: <span class="text-success">R$ {{ imovel.preco }}</span></p>
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'detalhes_imovel' imovel.id %}" class="btn btn-outline-secondary">Detalhes</a>
+                            <a href="{% url 'alugar_imovel' imovel.id %}" class="btn btn-primary">Alugar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .container {
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: #333333;
+    }
+
+    .card {
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .card img {
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        color: #333333;
+        margin-bottom: 10px;
+    }
+
+    .card-text {
+        margin-bottom: 10px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .btn-outline-secondary {
+        color: #6c757d;
+        border-color: #6c757d;
+    }
+
+    .btn-outline-secondary:hover {
+        background-color: #6c757d;
+        color: white;
+    }
+</style>
+{% endblock %}
+
